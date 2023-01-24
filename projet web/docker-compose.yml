@@ -20,6 +20,15 @@ services:
     environment:
       PMA_HOST: mysql
       UPLOAD_LIMIT: 64M
+  
+  web:
+    build:
+      context: ./src
+      dockerfile: ../Dockerfile
+    volumes:
+      - ./src:/app
+    depends_on:
+      - mysql
 
 volumes:
   db-data:
