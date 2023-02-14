@@ -8,3 +8,27 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: bisque;
 }
+
+.table {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.table td, .table th {
+    border: 1px solid gray;
+    padding: 10px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    background-color: burlywood;
+    justify-content: space-around;
+}
+
+nav a {
+    text-decoration: none;
+    color: aquamarine;
+    display: block;
+    padding: 10px;
+}

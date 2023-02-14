@@ -27,15 +27,15 @@ def about():
 @app.route('/assos')
 def assos():
   datas = Data.query.limit(10).all()
-  for data in datas:
-    print(f"{data.rna_id}")
+  #for data in datas:
+  #  print(f"{data.rna_id}")
   
   #stmt = select(Data)
   #result = db.session.execute(stmt)
   #for data in result.scalars():
   #  print(f"{data.rna_id}")
 
-  return render_template('assos.html')
+  return render_template('assos.html', datas=datas)
 
 @app.route('/hello')
 @app.route('/hello/<name>')
