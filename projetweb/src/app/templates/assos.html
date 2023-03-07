@@ -1,28 +1,194 @@
-{% extends 'base.html' %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('a#altermodal').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/get_data_with_id',
+                function(data) {
+            });
 
-{% block title %}<title>Page assos</title>{% endblock %}
-
-{% block content %}
+            $('input#gestionModifier').val(data.gestion);
+          });
+        });
+</script>
+{% extends 'base.html' %} {% block title %}<title>Page assos</title>{% endblock
+%} {% block content %}
 <h1>Assos page</h1>
 
+<!-- Button  Ajouter -->
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#ajouter"
+>
+  Ajouter une ligne
+</button>
+
+<!-- Modal Ajouter -->
+<div
+  class="modal fade"
+  id="ajouter"
+  tabindex="-1"
+  aria-labelledby="ajouterligne"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Ajouter une ligne
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/result">
+          <div class="mb-3">
+            <label for="rnaId" class="form-label">Rna ID</label>
+            <input type="text" class="form-control" id="rnaId" name="rnaId" />
+          </div>
+          <div class="mb-3">
+            <label for="rnaIdEx" class="form-label">Rna Id Ex</label>
+            <input
+              type="text"
+              class="form-control"
+              id="rnaIdEx"
+              name="rnaIdEx"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="gestion" class="form-label">Gestion</label>
+            <input
+              type="text"
+              class="form-control"
+              id="gestion"
+              name="gestion"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Fermer
+            </button>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>RNA ID</th>
-            <th>RNA ID EX</th>
-            <th>Gestion</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for data in datas %}
-        <tr>
-            <td>{{ data.id }}</td>
-            <td>{{ data.rna_id }}</td>
-            <td>{{ data.rna_id_ex }}</td>
-            <td>{{ data.gestion }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">RNA ID</th>
+      <th scope="col">RNA ID EX</th>
+      <th scope="col">Gestion</th>
+      <th scope="col">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for data in datas %}
+    <tr>
+      <th scope="row">{{ data.id }}</th>
+      <td name="id">{{ data.rna_id }}</td>
+      <td>{{ data.rna_id_ex }}</td>
+      <td>{{ data.gestion }}</td>
+      <td>
+        <form>
+            <a href=# id="altermodal">
+                <button   
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#modifier"
+                name="rnaIdModifier"
+                value="{{data.id}}">Modifier</button></a>
+        </form>
+
+        <form action="/delete" method="post">
+          <button
+            name="rnaId"
+            value="{{data.id}}"
+            type="submit"
+            class="btn btn-danger"
+          >
+            Supprimer
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
+<!-- Modal Ajouter -->
+<div
+  class="modal fade"
+  id="modifier"
+  tabindex="-1"
+  aria-labelledby="modifierligne"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Ajouter une ligne
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/alter">
+          <div class="mb-3">
+            <label for="rnaId" class="form-label">Rna ID</label>
+            <input type="text" class="form-control" id="rnaId" name="rnaId" />
+          </div>
+          <div class="mb-3">
+            <label for="rnaIdEx" class="form-label">Rna Id Ex</label>
+            <input
+              type="text"
+              class="form-control"
+              id="rnaIdEx"
+              name="rnaIdEx"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="gestionModifier" class="form-label">Gestion</label>
+            <input
+              type="text"
+              class="form-control"
+              id="gestionModifier"
+              name="gestion"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Fermer
+            </button>
+            <button  type="submit" class="btn btn-primary">Valider</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
